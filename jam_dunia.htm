@@ -1,0 +1,150 @@
+<html>
+
+    <head>
+        <title>Soal 1 - Jam Dunia</title>
+        <style>
+            table, th, td {
+                padding: 7px;
+                background: rgb(202, 243, 124);
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+
+    <body>
+        <center>
+            <table>
+                <thead>
+                    <h1>JAM DUNIA</h1>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="time0"></td>
+                    </tr>
+                    <tr>
+                        <td id="time1"></td>
+                    </tr>
+                    <tr>
+                        <td id="time2"></td>
+                    </tr>
+                    <tr>
+                        <td id="time3"></td>
+                    </tr>
+                    <tr>
+                        <td id="time4"></td>
+                    </tr>
+                    <tr>
+                        <td id="time5"></td>
+                    </tr>
+                    <tr>
+                        <td id="time6"></td>
+                    </tr>
+                    <tr>
+                        <td id="time7"></td>
+                    </tr>
+                    <tr>
+                        <td id="time8"></td>
+                    </tr>
+                    <tr>
+                        <td id="time9"></td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="background: rgb(146, 238, 84);">
+                            <h4>Selisih antar zona waktu = 1 jam, 1 menit, 1 detik</h4>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </center>
+
+        <script>
+            setInterval(times, 1000);
+            class clock {
+                constructor(jam, menit, detik) {
+                    this.Jam = jam;
+                    this.Menit = menit;
+                    this.Detik = detik;
+                }
+            }
+
+            function newTime(jam, menit, detik, val) {
+
+                var addSeconds = 0;
+                var addMinutes = 0;
+                var addHours = 0;
+
+                if ((detik + val) < 0) {
+                    addSeconds = 60;
+                    addMinutes -= 1;
+                } else {
+                    addSeconds = 0;
+                }
+
+                var newSeconds = (detik + val + addSeconds) % 60;
+                var freeMinutes = Math.floor((detik + val + addSeconds) / 60);
+
+                if ((addMinutes + menit + val + freeMinutes) < 0) {
+                    addMinutes += 60;
+                    addHours -= 1;
+                }
+
+                var newMinutes = (menit + val + freeMinutes + addMinutes) % 60;
+                var freeHours = Math.floor((menit + val + freeMinutes + addMinutes) / 60);
+
+                if ((addHours + jam + val + freeHours) < 0) {
+                    addHours += 24;
+                }
+
+                var newHours = (jam + val + freeHours + addHours) % 24;
+
+                var times = new clock(newHours, newMinutes, newSeconds);
+
+                return times;
+
+            }
+
+            function times() {
+
+                var arrTimes = [];
+                var time = new Date();
+                var hours = time.getHours();
+                var minutes = time.getMinutes();
+                var seconds = time.getSeconds();
+
+                arrTimes.push(newTime(hours, minutes, seconds, -7));
+                arrTimes.push(newTime(hours, minutes, seconds, -6));
+                arrTimes.push(newTime(hours, minutes, seconds, -5));
+                arrTimes.push(newTime(hours, minutes, seconds, -4));
+                arrTimes.push(newTime(hours, minutes, seconds, -3));
+                arrTimes.push(newTime(hours, minutes, seconds, -2));
+                arrTimes.push(newTime(hours, minutes, seconds, -1));
+                arrTimes.push(new clock(hours, minutes, seconds));
+                arrTimes.push(newTime(hours, minutes, seconds, 1));
+                arrTimes.push(newTime(hours, minutes, seconds, 2));
+
+
+                for (var i = 0; i < arrTimes.length; i++) {
+
+                    //Menambahkan digit 0 ketika dibawah 10
+                    function digit(posisi) {
+                        if (posisi < 10) {
+                            return posisi = "0" + posisi;
+                        } else {
+                            return posisi;
+                        }
+                    }
+
+                    document.getElementById("time" + i).innerHTML =
+                        `<center><b>${digit(arrTimes[i].Jam)}:${digit(arrTimes[i].Menit)}:${digit(arrTimes[i].Detik)} * GMT+ ${i}</b></center>`;
+
+                }
+
+            }
+        </script>
+
+    </body>
+
+</html>
