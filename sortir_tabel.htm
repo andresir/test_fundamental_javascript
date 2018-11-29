@@ -1,0 +1,323 @@
+<style>
+    table,
+    th,
+    td {
+        padding: 7px;
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<form id="form1">
+        <h4>Arah : <input type="radio" name="arah" value="Kiri" /> Kiri
+            <input type="radio" name="arah" value="Kanan" /> Kanan</h4>
+        <h4>Berapa Kali : <input type="number" /></h4>
+        </form>
+        
+        <input type="button" onclick="putar(num)" value="Putar" />
+
+        <br />
+        <br />
+
+<div id='inputPutar'></div>
+
+<table id="show"></table>
+<div id='ha'></div>
+<div id='ha1'></div>
+
+<!-- <form id="form1">
+        <h4>Arah : <input type="radio" name="arah" value="Kiri" /> Kiri
+            <input type="radio" name="arah" value="Kanan" /> Kanan</h4>
+        <h4>Berapa Kali : <input type="number" /></h4>
+    </form>
+    
+    <input type="button" onclick="" value="Putar" />
+
+    <br />
+    <br /> -->
+
+
+
+<script>
+    var param = parseInt(prompt('Masukkan Jumlah Kolom/Baris :'));
+
+
+    var num = []
+    var count = 1;
+    for (var i = 0; i < param; i++) {
+        var temp = []
+        for (var j = 0; j < param; j++) {
+            if (i % 2 === 0) {
+                temp.push(count++)
+
+            } else {
+                temp.push(count++)
+            }
+        }
+
+        num.push(temp)
+
+    }
+
+
+    
+
+    function show() {
+        output = "";
+        for (var i = 0; i < num.length + 1; i++) {
+            if (i < num.length) {
+
+                output += "<tr>";
+                for (var j = 0; j < num[i].length; j++) {
+                    output += `<th>${num[i][j]}</th>`;
+                }
+                output += `<th><input type="button" value="Sort" onclick="sortSamping(${i})"/></th></tr>`;
+            } else {
+                for (var k = 0; k < num.length; k++) {
+                    output += `<th><input type="button" value="Sort" onclick="sortBawah(${k})"/></th>`;
+                }
+            }
+
+        }
+
+        document.getElementById("show").innerHTML = output;
+
+
+        // document.getElementById("inputPutar").innerHTML =
+        //     `
+        // <form id="form1">
+        // <h4>Arah : <input type="radio" name="arah" value="Kiri" /> Kiri
+        //     <input type="radio" name="arah" value="Kanan" /> Kanan</h4>
+        // <h4>Berapa Kali : <input type="number" /></h4>
+        // </form>
+        
+        // <input type="button" onclick="putar(num)" value="Putar" />
+
+        // <br />
+        // <br />
+        // `;
+
+    }
+
+    //Sort
+    function sortSamping(indexSamping) {
+
+        if (num[indexSamping][0] < num[indexSamping][1]) {
+
+            for (var i = 0; i < num[indexSamping].length - 1; i++) {
+                for (var j = i + 1; j < num[indexSamping].length; j++) {
+                    if (num[indexSamping][i] < num[indexSamping][j]) {
+                        var y = num[indexSamping][i];
+                        num[indexSamping][i] = num[indexSamping][j];
+                        num[indexSamping][j] = y;
+                    }
+                }
+            }
+
+            //untuk mengganti index dengan hasil sort
+            // for(var y=0; y<num[indexSamping].length; y++){
+            // num[indexSamping].splice(0,1, num[indexSamping][0])
+            num[indexSamping][0] = num[indexSamping][0]
+            // } 
+
+            // document.getElementById("ha").innerHTML = JSON.stringify(num);
+            show();
+
+        } else {
+
+            for (var i = 0; i < num[indexSamping].length - 1; i++) {
+                for (var j = i + 1; j < num[indexSamping].length; j++) {
+                    if (num[indexSamping][i] > num[indexSamping][j]) {
+                        var y = num[indexSamping][i];
+                        num[indexSamping][i] = num[indexSamping][j];
+                        num[indexSamping][j] = y;
+                    }
+                }
+            }
+
+            //untuk mengganti index dengan hasil sort
+            // for(var y=0; y<num[indexSamping].length; y++){
+            // num[indexSamping].splice(0,1, num[indexSamping][0])
+            num[indexSamping][0] = num[indexSamping][0]
+            // } 
+
+            // document.getElementById("ha1").innerHTML = JSON.stringify(num);
+            show();
+
+        }
+
+
+        // document.getElementById("ha1").innerHTML = JSON.stringify(num);
+
+
+    }
+
+
+    function sortBawah(indexBawah) {
+
+        if (num[0][indexBawah] < num[1][indexBawah]) {
+
+            //Untuk menampung index yang di akan di sortir        
+            var tempBawah = [];
+            for (var z = 0; z < num.length; z++) {
+                tempBawah.push(num[z][indexBawah])
+            }
+
+            //untuk sort
+            for (var i = 0; i < tempBawah.length - 1; i++) {
+                for (var j = i + 1; j < tempBawah.length; j++) {
+                    if (tempBawah[i] < tempBawah[j]) {
+                        var y = tempBawah[i];
+                        tempBawah[i] = tempBawah[j];
+                        tempBawah[j] = y;
+                    }
+                }
+            }
+
+            //untuk mengganti index dengan hasil sort
+            for (var y = 0; y < tempBawah.length; y++) {
+                num[y].splice(indexBawah, 1, tempBawah[y])
+            }
+
+        } else {
+
+            //Untuk menampung index yang di akan di sortir        
+            var tempBawah = [];
+            for (var z = 0; z < num.length; z++) {
+                tempBawah.push(num[z][indexBawah])
+            }
+
+            //untuk sort
+            for (var i = 0; i < tempBawah.length - 1; i++) {
+                for (var j = i + 1; j < tempBawah.length; j++) {
+                    if (tempBawah[i] > tempBawah[j]) {
+                        var y = tempBawah[i];
+                        tempBawah[i] = tempBawah[j];
+                        tempBawah[j] = y;
+                    }
+                }
+            }
+
+            //untuk mengganti index dengan hasil sort
+            for (var y = 0; y < tempBawah.length; y++) {
+                num[y].splice(indexBawah, 1, tempBawah[y])
+            }
+
+        }
+
+        // document.getElementById("ha").innerHTML = JSON.stringify(num);
+
+        show();
+
+    }
+
+
+    // function putar(matrix) {
+  
+    //     const n = matrix.length;
+
+    //     const x = Math.floor(n/ 2);
+
+    //     const y = n - 1;
+
+    //     for (let i = 0; i < x; i++) {
+
+    //         for (let j = i; j < y - i; j++) {
+
+    //             k = matrix[i][j];
+
+    //         //   console.log(k)
+
+    //             matrix[i][j] = matrix[y - j][i];
+
+    //             matrix[y - j][i] = matrix[y - i][y - j];
+
+    //             matrix[y - i][y - j] = matrix[j][y - i]
+
+    //             matrix[j][y - i] = k
+
+    //         }
+
+    //     }
+
+    //     show()
+    // }
+
+// document.getElementById("ha").innerHTML = JSON.stringify(num);
+
+function putar(matrix) {
+
+    var newArr = []
+    var count2 = 0;
+    for (var i = 0; i < param; i++) {
+        var temp2 = []
+        for (var j = 0; j < param; j++) {
+            if (i % 2 === 0) {
+                temp2.push(count2)
+
+            } else {
+                temp2.push(count2)
+            }
+        }
+
+        newArr.push(temp2)
+
+    }
+
+            var arah = '';
+            if(document.getElementById("form1").elements[0].checked == true)
+            {
+                arah = document.getElementById("form1").elements[0].value;
+            }
+            else if(document.getElementById("form1").elements[1].checked == true) 
+            {
+                arah = document.getElementById("form1").elements[1].value;
+            }
+            var inputKali = parseInt(document.getElementById("form1").elements[2].value);
+            var kali = inputKali % 4;
+            // var newArr = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+
+            if(kali == 0)
+            {
+                newArr = num;
+            }
+            else if((kali == 1 && arah == 'Kanan') || (kali == 3 && arah == 'Kiri'))
+            {
+                for(var i = 0; i < matrix.length; i++)
+               {
+                   for(var j = 0, k = matrix.length-1; j < matrix.length, k >= 0; j++, k--)
+                   {
+                    
+                       newArr[i][j] = matrix[k][i];
+                    //    document.getElementById("ha").innerHTML = '2 >>>> '+matrix;
+                       
+                   }
+               }
+            }
+            else if(kali == 2)
+            {
+                for(var i = 0, k = matrix.length-1; i < matrix.length; i++, k--)
+                {
+                    for(var j = 0, l = matrix.length-1; j < matrix.length; j++, l--)
+                    {
+                        newArr[k][l] = matrix[i][j];
+                    }
+                }
+            } 
+            else if((kali == 3 && arah == 'Kanan') || (kali == 1 && arah == 'Kiri'))
+            {
+                for(var i = 0; i < matrix.length; i++)
+                {
+                    for(var j = 0, l = matrix.length-1; j < matrix.length; j++, l--)
+                    {
+                        newArr[l][i] = matrix[i][j];
+                    }
+                }
+            }
+    
+            num = newArr;
+            show();
+        }
+
+    show()
+</script>
