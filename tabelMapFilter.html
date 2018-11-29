@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <title>Latihan Map Filter</title>
+        <style>
+            table, th, td {
+                padding: 7px;
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+
+        <center>
+            
+            <table>
+                <thead>
+                    <th>Filtering Data</th>
+                </thead>
+                <tbody>
+                    <td>
+                        <form>
+                            Nama : <input id="inputCariNama" type="text" placeholder="masukkan nama"/>
+                            <br /><br />
+
+                            Umur : <input id="inputUmurMin" type="number" /> - <input id="inputUmurMax" type="number" />
+                            <br /><br />
+                            
+                            Pekerjaan : 
+                            <select id="dataPekerjaan">
+                                
+                            </select>
+                            <br /><br />
+
+                            <input type="button" value="Cari Data" onclick="filterData()" />
+                        </form>
+                    </td>     
+                </tbody>
+            </table>
+
+            <br /><br />
+
+            <table>
+                <thead>
+                    <th>Nama</th>
+                    <th>Umur</th>
+                    <th>Pekerjaan</th>
+                    <th>Action</th>
+                </thead>
+                <tbody id='bodyTable'></tbody>
+                <tfoot>
+                    <tr>
+                        <form>
+                            <td><input id="inputNama" type="text" placeholder="masukkan nama"></td>
+                            <td><input id="inputUmur" type="number"></td>
+                            <td><input id="ddlPekerjaan" type="text" placeholder="masukkan pekerjaan"></td>
+                            <td><input type="button" value="Add Manusia" onclick="addManusia()" /></td>
+                        </form>
+                    </tr>
+
+                </tfoot>
+            </table>
+        <!-- <div id='tes'></div> -->
+        </center>
+
+        <script>
+
+            var arrManusia = [];
+            
+            var insertData = () => {
+                //map data manusia dari arrManusia
+                var mapAllData = arrManusia.map((valAllData) => {
+                    return `<tr>
+                                <td>${valAllData.nama}</td>
+                                <td>${valAllData.umur}</td>
+                                <td>${valAllData.pekerjaan}</td>
+                            </tr>`;
+                });
+
+                document.getElementById('bodyTable').innerHTML = mapAllData.join('');
+
+                //Filter nama pekerjaan yang sama
+                var objFilterPekerjaan = {};
+                for(var i=0; i<arrManusia.length; i++){
+                    objFilterPekerjaan[arrManusia[i].pekerjaan] = 1;  
+                }
+                var arrFilterNamaPekerjaan = Object.keys(objFilterPekerjaan);
+
+                //map data pekerjaan yg sudah terfilter
+                var mapPekerjaan = arrFilterNamaPekerjaan.map((valPekerjaan) => {
+                    return `<option value='${valPekerjaan}'>${valPekerjaan}</option>`;
+                });
+
+                document.getElementById('dataPekerjaan').innerHTML = mapPekerjaan.join('');
+                // document.getElementById('tes').innerHTML = JSON.stringify(tt);
+                
+            }
+
+            //FILTER All Data
+            var filterData = () => {
+                var cariNama = document.getElementById("inputCariNama").value;
+                var cariUmurMin = parseInt(document.getElementById("inputUmurMin").value);
+                var cariUmurMax = parseInt(document.getElementById("inputUmurMax").value);
+                var cariPekerjaan = document.getElementById("dataPekerjaan").value;
+                
+                var filterNama = arrManusia.filter((val) => {
+
+                    // Cara 1--------------
+                    // if(val.nama.includes(cariNama) && val.umur >= cariUmurMin && val.umur <= cariUmurMax && val.pekerjaan === cariPekerjaan){
+                    //   return true
+                    // }
+
+                    // Cara 2--------------
+                    return (val.nama.includes(cariNama)
+                            && val.umur >= cariUmurMin
+                            && val.umur <= cariUmurMax
+                            && val.pekerjaan.includes(cariPekerjaan));
+
+                 });
+                
+                var mapFilter = filterNama.map((valFilter) => {
+                    return `<tr>
+                                <td>${valFilter.nama}</td>
+                                <td>${valFilter.umur}</td>
+                                <td>${valFilter.pekerjaan}</td>
+                            </tr>`;
+                });
+
+                document.getElementById('bodyTable').innerHTML = mapFilter.join('');
+            }
+                
+            //ADD Data Manusia
+            var addManusia = () => {
+                var nama = document.getElementById("inputNama").value;
+                var umur = parseInt(document.getElementById("inputUmur").value);
+                var pekerjaan = document.getElementById("ddlPekerjaan").value;
+
+                var objManusia = {};
+                objManusia['nama'] = nama;
+                objManusia['umur'] = umur;
+                objManusia['pekerjaan'] = pekerjaan;
+                
+                arrManusia.push(objManusia);
+
+                insertData();
+                // filterData();
+            }
+            
+        </script>
+
+    </body>
+</html>
