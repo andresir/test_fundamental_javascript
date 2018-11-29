@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <title>Soal 2 - Drawing Tools</title>
+    <style>
+        table, th, td {
+            padding: 7px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Drawing Tools</h1>
+
+    <h4>1. Persegi</h4>
+    <h4>2. Segitiga Siku2 Rata Kiri</h4>
+    <h4>3. Segitiga Siku2 Rata Kanan</h4>
+
+    <form>
+        <h4>Jenis Bangunan :</h4>
+        <input id="jenis" type="number">
+
+        <h4>Ukuran :</h4>
+        <input id="ukuran" type="number">
+    </form>
+
+    <br><br>
+    <button onclick="lihatSegitiga()">Lihat</button>
+
+    <br><br>
+    <div id="hasil"></div>
+
+    <script>
+        var lihatSegitiga = () => {
+
+            var jenis = parseInt(document.getElementById("jenis").value);
+            var ukuran = parseInt(document.getElementById("ukuran").value);
+            var bintang = "";
+
+            if (jenis > 3 || jenis <= 0) {
+                alert("Ups... Pilihan Input Jenis Hanya Angka 1 sampai 3 !!!");
+            }
+
+            if (ukuran <= 0) {
+                alert("Please input ukuran Angka diatas 0 !!!");
+            }
+
+            if (jenis === 1) {
+                for (var i = 0; i < ukuran; i++) {
+                    for (var j = 0; j < ukuran; j++) {
+                        bintang += "*"
+                    }
+                    // console.log(bintang)
+                    bintang += "<br>"
+                }
+            } else if (jenis === 2) {
+                for (var i = 1; i <= ukuran; i++) {
+                    for (var j = 4; j >= i; j--) {
+                        bintang += ""
+                    }
+                    for (var k = 1; k <= i; k++) {
+                        bintang += "*"
+                    }
+                    bintang += "<br>"
+                }
+            } else if (jenis === 3) {
+                for(var i = 1; i <= ukuran; i++) {
+                    for(var k = 0; k < (ukuran - i); k++) {
+                        bintang += '&nbsp&nbsp&nbsp';
+                    }
+                    for(var j = 0; j < i; j++) {
+                        bintang += '* ';
+                    }
+                    bintang += '<br/>';
+                }
+            }
+
+            document.getElementById("hasil").innerHTML = bintang;
+
+        }
+    </script>
+
+</body>
+
+</html>
