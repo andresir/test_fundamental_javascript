@@ -1,0 +1,144 @@
+<html>
+
+<head>
+    <title>Soal 3 - Daftar Manusia</title>
+    <style>
+        table, th, td {
+            padding: 7px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>DAFTAR MANUSIA</h1>
+
+    <br />
+    <form id="form1">
+        <h4>Nama: <input type="text" /></h4>
+        <h4>Umur: <input type="number" /></h4>
+        <h4>Kelamin: <input type="radio" name="kelamin" value="Pria" /> Pria
+            <input type="radio" name="kelamin" value="Wanita" /> Wanita</h4>
+        <h4>Pekerjaan: <input type="text" /></h4>
+    </form>
+
+    <button onclick="inputData()"> Submit </button>
+    <button onclick="sortNama()"> Sort Nama </button>
+    <button onclick="sortUmur()"> Sort Umur </button>
+    <button onclick="sortSex()"> Sort Kelamin </button>
+    <button onclick="sortJob()"> Sort Pekerjaan </button>
+
+    <br />
+    <br />
+
+    <table id="dataTabel"></table>
+
+    <script>
+        class dataNama {
+            constructor(nama, usia, job, sex) {
+                this.nama = nama;
+                this.umur = usia;
+                this.pekerjaan = job;
+                this.kelamin = sex;
+            }
+        }
+
+        var tempArrData = [];
+
+        function show() {
+            var outPut =
+                '<tr><th style="background: rgb(29, 216, 60);">Nama</th><th style="background: rgb(29, 216, 60);">Umur</th><th style="background: rgb(29, 216, 60);">Kelamin</th><th style="background: rgb(29, 216, 60);">Pekerjaan</th></tr>';
+
+            for (var i = 0; i < tempArrData.length; i++) {
+                var templateRow =
+                    '<tr style="background: rgb(222, 238, 84);"><td>' +
+                    tempArrData[i].nama + '</td><td>' +
+                    tempArrData[i].umur + '</td><td>' +
+                    tempArrData[i].kelamin + '</td><td>' +
+                    tempArrData[i].pekerjaan + '</td></tr>';
+                outPut += templateRow;
+            }
+
+            document.getElementById("dataTabel").innerHTML = outPut;
+        }
+
+        function inputData() {
+            var tempNewData = new dataNama();
+            tempNewData.nama = document.getElementById("form1").elements[0].value;
+            tempNewData.umur = document.getElementById("form1").elements[1].value;
+            tempNewData.pekerjaan = document.getElementById("form1").elements[4].value;
+            if (document.getElementById("form1").elements[2].checked == true) {
+                tempNewData.kelamin = document.getElementById("form1").elements[2].value;
+            } else if (document.getElementById("form1").elements[3].checked == true) {
+                tempNewData.kelamin = document.getElementById("form1").elements[3].value;
+            }
+            tempArrData.push(tempNewData);
+            // document.write(JSON.stringify(tempArrData))
+            show();
+        }
+
+        function sortNama() {
+            for (var i = 0; i < tempArrData.length; i++) {
+                for (var j = (i + 1); j < tempArrData.length; j++) {
+                    if (tempArrData[i].nama > tempArrData[j].nama) {
+                        var temp = tempArrData[i];
+                        tempArrData[i] = tempArrData[j];
+                        tempArrData[j] = temp;
+                    }
+                }
+
+            }
+
+            show();
+        }
+
+        function sortUmur() {
+            for (var i = 0; i < tempArrData.length - 1; i++) {
+                for (var j = i + 1; j < tempArrData.length; j++) {
+                    if (Number(tempArrData[i].umur) > Number(tempArrData[j].umur)) {
+                        var temp = tempArrData[i];
+                        tempArrData[i] = tempArrData[j];
+                        tempArrData[j] = temp;
+                    }
+                }
+            }
+
+            show();
+        }
+
+        function sortSex() {
+            for (var i = 0; i < tempArrData.length; i++) {
+                for (var j = (i + 1); j < tempArrData.length; j++) {
+                    if (tempArrData[i].kelamin > tempArrData[j].kelamin) {
+                        var temp = tempArrData[i];
+                        tempArrData[i] = tempArrData[j];
+                        tempArrData[j] = temp;
+                    }
+                }
+
+            }
+
+            show();
+        }
+
+        function sortJob() {
+            for (var i = 0; i < tempArrData.length; i++) {
+                for (var j = (i + 1); j < tempArrData.length; j++) {
+                    if (tempArrData[i].pekerjaan > tempArrData[j].pekerjaan) {
+                        var temp = tempArrData[i];
+                        tempArrData[i] = tempArrData[j];
+                        tempArrData[j] = temp;
+                    }
+                }
+
+            }
+
+            show();
+        }
+    </script>
+
+</body>
+
+</html>
